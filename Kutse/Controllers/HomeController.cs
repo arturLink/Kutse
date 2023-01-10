@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Kutse.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace Kutse.Controllers
@@ -10,15 +12,48 @@ namespace Kutse.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Ootan sind minu peole! Palun tule!";
+            int month = 3;//DateTime.Now.Month;
+            ViewBag.Message = month == 1 ? "Ootan sind minu peole Jaanuaris! Palun tule!" : month == 2 ? "Ootan sind minu peole Februaris! Palun tule!" : "Ma ei otan sind ";
             int hour = DateTime.Now.Hour;
-            ViewBag.Greeting = hour < 10 ? "Tere hommikust!" : "Tere päevast!";
+            ViewBag.Greeting = hour < 10 ? "Tere hommikust!" : hour < 17 ? "Tere päevast" : hour < 23 ? "Tere õhtuks" : "Head ööd";
             return View();
         }
         [HttpGet]
         public ViewResult Ankeet()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ViewResult Ankeet(Guest guest)
+        {
+            E_mail(guest);
+            if (ModelState.IsValid)
+            {
+                return View("Thanks", guest);
+            }
+            else
+            { return View(); }
+        }
+
+        public void E_mail(Guest guest)
+        {
+            try
+            {
+                WebMail.SmtpServer = "smtp.gmail.com";
+                WebMail.SmtpPort = 587;
+                WebMail.EnableSsl= true;
+                WebMail.UserName = "arturlink04@gmail.com";
+                WebMail.Password = "hzbyonbpfcpedhld";
+                WebMail.From = "arturlink04@gmail.com";
+                WebMail.Send("arturlink04@gmail.com", "Vastus kutsele", guest.Name + " vastas " + ((guest.WillAttend ?? false) ?
+                    "tuleb peole " : "ei tule peole"));
+                ViewBag.Message = "Kiri on saatnud!";
+            }
+            catch(Exception)
+            {
+                ViewBag.Message = "Mul on kahju! Ei saa kirja saada!!!";
+            }
         }
 
         public ActionResult About()
