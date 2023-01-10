@@ -12,7 +12,7 @@ namespace Kutse.Controllers
     {
         public ActionResult Index()
         {
-            int month = 3;//DateTime.Now.Month;
+            int month = DateTime.Now.Month;
             ViewBag.Message = month == 1 ? "Ootan sind minu peole Jaanuaris! Palun tule!" : month == 2 ? "Ootan sind minu peole Februaris! Palun tule!" : "Ma ei otan sind ";
             int hour = DateTime.Now.Hour;
             ViewBag.Greeting = hour < 10 ? "Tere hommikust!" : hour < 17 ? "Tere päevast" : hour < 23 ? "Tere õhtuks" : "Head ööd";
@@ -47,6 +47,8 @@ namespace Kutse.Controllers
                 WebMail.Password = "hzbyonbpfcpedhld";
                 WebMail.From = "arturlink04@gmail.com";
                 WebMail.Send("arturlink04@gmail.com", "Vastus kutsele", guest.Name + " vastas " + ((guest.WillAttend ?? false) ?
+                    "tuleb peole " : "ei tule peole"));
+                WebMail.Send("alinakolomoiets@gmail.com", "Vastus kutsele", guest.Name + " vastas " + ((guest.WillAttend ?? false) ?
                     "tuleb peole " : "ei tule peole"));
                 ViewBag.Message = "Kiri on saatnud!";
             }
