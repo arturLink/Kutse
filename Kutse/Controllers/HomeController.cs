@@ -30,6 +30,8 @@ namespace Kutse.Controllers
             E_mail(guest);
             if (ModelState.IsValid)
             {
+                db.Guests.Add(guest);
+                db.SaveChanges();
                 return View("Thanks", guest);
             }
             else
@@ -44,7 +46,7 @@ namespace Kutse.Controllers
                 WebMail.SmtpPort = 587;
                 WebMail.EnableSsl= true;
                 WebMail.UserName = "arturlink04@gmail.com";
-                WebMail.Password = "hzbyonbpfcpedhld";
+                WebMail.Password = "ioyebmztdafrqcad";
                 WebMail.From = "arturlink04@gmail.com";
                 WebMail.Send("arturlink04@gmail.com", "Vastus kutsele", guest.Name + " vastas " + ((guest.WillAttend ?? false) ?
                     "tuleb peole " : "ei tule peole"));
@@ -70,6 +72,14 @@ namespace Kutse.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        GuestContext db = new GuestContext();
+        //[Authorize]
+        public ActionResult Guests()
+        {
+            IEnumerable<Guest> guests = db.Guests;
+            return View(guests);
         }
     }
 }
