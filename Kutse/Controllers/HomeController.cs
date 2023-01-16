@@ -81,5 +81,16 @@ namespace Kutse.Controllers
             IEnumerable<Guest> guests = db.Guests;
             return View(guests);
         }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Guest guest)
+        {
+            return View();
+        }
     }
 }
