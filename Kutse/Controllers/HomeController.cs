@@ -75,7 +75,7 @@ namespace Kutse.Controllers
         }
 
         GuestContext db = new GuestContext();
-        //[Authorize]
+        [Authorize]
         public ActionResult Guests()
         {
             IEnumerable<Guest> guests = db.Guests;
@@ -90,7 +90,51 @@ namespace Kutse.Controllers
         [HttpPost]
         public ActionResult Create(Guest guest)
         {
-            return View();
+            db.Guests.Add(guest);
+            db.SaveChanges();
+            return RedirectToAction("Guests");
         }
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            Guest g = db.Guests.Find(id);
+            if(g==null)
+            {
+                return HttpNotFound();
+            }
+            db.Guests.Remove(g);
+            db.SaveChanges();
+            return RedirectToAction("Guests");
+        }
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            Guest g = db.Guests.Find(id);
+            if(g==null)
+            {
+                return HttpNotFound();
+            }
+            return View(g);
+        }
+        [HttpPost, ActionName("Edit")]
+        public ActionResult EditConfirmed(Guest guest)
+        {
+            db.Entry(guest).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Guests");
+        }
+        [HttpGet]
+        public ActionResult Accept()
+        {
+            IEnumerable<Guest> guests = db.Guests.Where(g => g.WillAttend == true);
+            return View(guests);
+        }
+        [HttpGet]
+        public ActionResult Accept2()
+        {
+            IEnumerable<Guest> guests = db.Guests.Where(g => g.WillAttend == false);
+            return View(guests);
+        }
+
     }
 }

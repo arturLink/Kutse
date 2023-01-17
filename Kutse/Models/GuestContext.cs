@@ -9,5 +9,7 @@ namespace Kutse.Models
     public class GuestContext : DbContext
     {
         public DbSet<Guest> Guests { get;set; }
+
+        public DbSet<Holiday> Pidu { get; set; }
     }
 }
