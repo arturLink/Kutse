@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Kutse.Models.Holiday>
+
+@{
+    ViewBag.Title = "Pidu";
+}
+
+<h2>Pidu</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Pidustus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.kuupaev)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pidustus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.kuupaev)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

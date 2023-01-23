@@ -94,6 +94,7 @@ namespace Kutse.Controllers
             db.SaveChanges();
             return RedirectToAction("Guests");
         }
+        
         [HttpGet]
         public ActionResult Delete(int id)
         {
@@ -136,5 +137,21 @@ namespace Kutse.Controllers
             return View(guests);
         }
 
+
+        GuestContext dbHol = new GuestContext();
+        [Authorize]
+        public ActionResult Pidu()
+        {
+            IEnumerable<Holiday> holidays = dbHol.Pidu;
+            return View(holidays);
+        }
+
+        [HttpPost]
+        public ActionResult Create(Holiday pidu)
+        {
+            dbHol.Pidu.Add(pidu);
+            db.SaveChanges();
+            return RedirectToAction("Pidu");
+        }
     }
 }

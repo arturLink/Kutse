@@ -22,8 +22,6 @@ namespace Kutse.Models
         public string Phone { get; set; }
         [Required(ErrorMessage = "Sisesta oma valik")]
 
-        public List<Holiday> Pidu { get; set; }
-
         public bool? WillAttend { get; set; }
     }
 }
