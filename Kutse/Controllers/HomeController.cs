@@ -146,12 +146,12 @@ namespace Kutse.Controllers
             return View(holidays);
         }
 
-        [HttpPost]
-        public ActionResult Create(Holiday pidu)
-        {
-            dbHol.Pidu.Add(pidu);
-            db.SaveChanges();
-            return RedirectToAction("Pidu");
-        }
+        //[HttpPost]
+        //public ActionResult Create(Holiday pidu)
+        //{
+        //    dbHol.Pidu.Add(pidu);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Pidu");
+        //}
     }
 }
