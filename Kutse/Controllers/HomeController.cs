@@ -15,7 +15,7 @@ namespace Kutse.Controllers
             int month = DateTime.Now.Month;
             ViewBag.Message = month == 1 ? "Ootan sind minu peole Jaanuaris! Palun tule!" : month == 2 ? "Ootan sind minu peole Februaris! Palun tule!" : "Ma ei otan sind ";
             int hour = DateTime.Now.Hour;
-            ViewBag.Greeting = hour < 10 ? "Tere hommikust!" : hour < 15 ? "Tere päevast" : hour < 23 ? "Tere õhtuks" : "Head ööd";
+            ViewBag.Greeting = hour < 10 ? "Tere hommikust!" : hour < 17 ? "Tere päevast" : hour < 23 ? "Tere õhtust" : "Head ööd";
             return View();
         }
         [HttpGet]
