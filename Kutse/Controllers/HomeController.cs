@@ -15,7 +15,7 @@ namespace Kutse.Controllers
             int month = DateTime.Now.Month;
             ViewBag.Message = month == 1 ? "Ootan sind minu peole Jaanuaris! Palun tule!" : month == 2 ? "Ootan sind minu peole Februaris! Palun tule!" : "Ma ei otan sind ";
             int hour = DateTime.Now.Hour;
-            ViewBag.Greeting = hour < 10 ? "Tere hommikust!" : hour < 17 ? "Tere päevast" : hour < 23 ? "Tere õhtuks" : "Head ööd";
+            ViewBag.Greeting = hour < 10 ? "Tere hommikust!" : hour < 15 ? "Tere päevast" : hour < 23 ? "Tere õhtuks" : "Head ööd";
             return View();
         }
         [HttpGet]
@@ -46,11 +46,9 @@ namespace Kutse.Controllers
                 WebMail.SmtpPort = 587;
                 WebMail.EnableSsl= true;
                 WebMail.UserName = "arturlink04@gmail.com";
-                WebMail.Password = "ioyebmztdafrqcad";
+                WebMail.Password = "aemxunujiepasqnm";
                 WebMail.From = "arturlink04@gmail.com";
                 WebMail.Send("arturlink04@gmail.com", "Vastus kutsele", guest.Name + " vastas " + ((guest.WillAttend ?? false) ?
-                    "tuleb peole " : "ei tule peole"));
-                WebMail.Send("alinakolomoiets@gmail.com", "Vastus kutsele", guest.Name + " vastas " + ((guest.WillAttend ?? false) ?
                     "tuleb peole " : "ei tule peole"));
                 ViewBag.Message = "Kiri on saatnud!";
             }
@@ -59,6 +57,7 @@ namespace Kutse.Controllers
                 ViewBag.Message = "Mul on kahju! Ei saa kirja saada!!!";
             }
         }
+
 
         public ActionResult About()
         {
@@ -145,13 +144,59 @@ namespace Kutse.Controllers
             IEnumerable<Holiday> holidays = dbHol.Pidu;
             return View(holidays);
         }
+        [HttpGet]
+        public ActionResult CreateHol()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateHol(Holiday pidu)
+        {
+            dbHol.Pidu.Add(pidu);
+            dbHol.SaveChanges();
+            return RedirectToAction("Pidu");
+        }
+        [HttpGet]
+        public ActionResult DeleteHol(int id)
+        {
+            Holiday h = dbHol.Pidu.Find(id);
+            if (h==null)
+            {
+                return HttpNotFound();
+            }
+            return View(h);
+        }
+        [HttpPost,ActionName("DeleteHol")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Holiday h = dbHol.Pidu.Find(id);
+            if (h==null)
+            {
+                return HttpNotFound();
+            }
+            dbHol.Pidu.Remove(h);
+            dbHol.SaveChanges();
+            return RedirectToAction("Pidu");
+        }
 
-        //[HttpPost]
-        //public ActionResult Create(Holiday pidu)
-        //{
-        //    dbHol.Pidu.Add(pidu);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Pidu");
-        //}
+        [HttpGet]
+        public ActionResult EditHol(int? id)
+        {
+            Holiday h = dbHol.Pidu.Find(id);
+            if (h==null)
+            {
+                return HttpNotFound();
+            }
+            return View(h);
+        }
+        [HttpPost,ActionName("EditHol")]
+        public ActionResult EditConfirmed(Holiday hol)
+        {
+            dbHol.Entry(hol).State = System.Data.Entity.EntityState.Modified;
+            dbHol.SaveChanges();
+            return RedirectToAction("Pidu");
+        }
+
+
     }
 }
